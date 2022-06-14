@@ -1,0 +1,22 @@
+@startuml
+actor USER as U 
+participant APP as A
+participant SLACK as S
+
+autonumber
+
+U -> S: Post a Slack Command
+S -> A ++ #DarkSalmon: `/rocker` event triggered
+A -> S --: `chat.postEphemeral`
+S -> U: Display ephemeral message to a user in a channel
+U -> S: Click on button `lauch rocket`
+S -> A ++ #DarkSalmon: `interaction` event triggered
+A -> S: `chat.postMessage`
+S -> U: Display Rocket Count down Message 3
+A -> S: `chat.postMessage`
+S -> U: Display Rocket Count down Message 2
+A -> S --: `chat.postMessage`
+S -> U: Display Rocket Count down Message 1
+
+
+@enduml
