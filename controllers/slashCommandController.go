@@ -2,11 +2,15 @@ package controllers
 
 import (
 	"log"
-	"time"
 	"xnok/slack-go-demo/views"
 
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/socketmode"
+)
+
+const (
+	// Define Action_id as constant so we can refer to them in the controller
+	ShowRequestCommand = "/anfrage"
 )
 
 // We create a sctucture to let us use dependency injection
@@ -20,27 +24,14 @@ func NewSlashCommandController(eventhandler *socketmode.SocketmodeHandler) Slash
 		EventHandler: eventhandler,
 	}
 
-	// Register callback for the command /rocket
 	c.EventHandler.HandleSlashCommand(
-		"/rocket",
-		c.launchRocketAnnoncement,
-	)
-
-	// The rocket launch is approved
-	c.EventHandler.HandleInteractionBlockAction(
-		views.RocketAnnoncementActionID,
-		c.launchRocket,
-	)
-
-	// Register callback for the command /rocket
-	c.EventHandler.HandleSlashCommand(
-		"/anfrage",
+		ShowRequestCommand,
 		c.showRequest,
 	)
 
-	// The rocket launch is approved
+	// The form is sent back to us
 	c.EventHandler.HandleInteractionBlockAction(
-		views.ShowRequestFormActionID,
+		views.IDs["form_action"],
 		c.handleShowRequestForm,
 	)
 
@@ -50,17 +41,17 @@ func NewSlashCommandController(eventhandler *socketmode.SocketmodeHandler) Slash
 
 func (c SlashCommandController) showRequest(evt *socketmode.Event, clt *socketmode.Client) {
 	// we need to cast our socketmode.Event into a Slash Command
-	command, ok := evt.Data.(slack.SlashCommand)
+	command, convErr := evt.Data.(slack.SlashCommand)
 
-	if ok != true {
-		log.Printf("ERROR converting event to Slash Command: %v", ok)
+	if convErr != true {
+		log.Printf("ERROR converting event to Slash Command: %v", convErr)
 	}
 
 	// Make sure to respond to the server to avoid an error
 	clt.Ack(*evt.Request)
 
 	// create the view using block-kit
-	blocks := views.ShowRequest()
+	blocks := views.InquiryForm()
 
 	client := clt.GetApiClient()
 
@@ -73,7 +64,7 @@ func (c SlashCommandController) showRequest(evt *socketmode.Event, clt *socketmo
 
 	// Handle errors
 	if err != nil {
-		log.Printf("ERROR while sending message for /anfrage: %v", err)
+		log.Printf("ERROR while sending message for '%v': %v", ShowRequestCommand, err)
 	}
 
 }
@@ -81,94 +72,32 @@ func (c SlashCommandController) showRequest(evt *socketmode.Event, clt *socketmo
 func (c SlashCommandController) handleShowRequestForm(evt *socketmode.Event, clt *socketmode.Client) {
 	// we need to cast our socketmode.Event into a Slash Command
 	interaction := evt.Data.(slack.InteractionCallback)
+	rawInputs := interaction.BlockActionState.Values
 
-	// Make sure to respond to the server to avoid an error
-	clt.Ack(*evt.Request)
+	inputs := map[string]interface{}{}
 
-	// parse the command line
-	count := 3
-
-	for i := count; i >= 0; i-- {
-		// create the view using block-kit
-		blocks := views.LaunchRocket(i)
-
-		time.Sleep(1000 * time.Millisecond)
-
-		_, _, err := clt.GetApiClient().PostMessage(
-			interaction.Container.ChannelID,
-			slack.MsgOptionBlocks(blocks...),
-			slack.MsgOptionResponseURL(interaction.ResponseURL, slack.ResponseTypeInChannel),
-			slack.MsgOptionReplaceOriginal(interaction.ResponseURL),
-		)
-
-		// Handle errors
-		if err != nil {
-			log.Printf("ERROR while sending message for /rocket: %v", err)
+	for _, entry := range rawInputs {
+		for actionId, value := range entry {
+			inputs[actionId] = getValuesFromBlockAction(value)
 		}
 	}
 
-}
-
-func (c SlashCommandController) launchRocketAnnoncement(evt *socketmode.Event, clt *socketmode.Client) {
-	// we need to cast our socketmode.Event into a Slash Command
-	command, ok := evt.Data.(slack.SlashCommand)
-
-	if ok != true {
-		log.Printf("ERROR converting event to Slash Command: %v", ok)
-	}
-
 	// Make sure to respond to the server to avoid an error
 	clt.Ack(*evt.Request)
 
-	// parse the command line
-	count := 3
-
 	// create the view using block-kit
-	blocks := views.LaunchRocketAnnoncement(count)
+	// blocks := views.LaunchRocket()
 
-	client := clt.GetApiClient()
-
-	// Post ephemeral message
-	_, _, err := client.PostMessage(
-		command.ChannelID,
-		slack.MsgOptionBlocks(blocks...),
-		slack.MsgOptionResponseURL(command.ResponseURL, slack.ResponseTypeEphemeral),
+	_, _, err := clt.GetApiClient().PostMessage(
+		interaction.Container.ChannelID,
+		slack.MsgOptionBlocks(),
+		slack.MsgOptionResponseURL(interaction.ResponseURL, slack.ResponseTypeInChannel),
+		slack.MsgOptionReplaceOriginal(interaction.ResponseURL),
 	)
 
 	// Handle errors
 	if err != nil {
 		log.Printf("ERROR while sending message for /rocket: %v", err)
-	}
-
-}
-
-func (c SlashCommandController) launchRocket(evt *socketmode.Event, clt *socketmode.Client) {
-	// we need to cast our socketmode.Event into a Slash Command
-	interaction := evt.Data.(slack.InteractionCallback)
-
-	// Make sure to respond to the server to avoid an error
-	clt.Ack(*evt.Request)
-
-	// parse the command line
-	count := 3
-
-	for i := count; i >= 0; i-- {
-		// create the view using block-kit
-		blocks := views.LaunchRocket(i)
-
-		time.Sleep(1000 * time.Millisecond)
-
-		_, _, err := clt.GetApiClient().PostMessage(
-			interaction.Container.ChannelID,
-			slack.MsgOptionBlocks(blocks...),
-			slack.MsgOptionResponseURL(interaction.ResponseURL, slack.ResponseTypeInChannel),
-			slack.MsgOptionReplaceOriginal(interaction.ResponseURL),
-		)
-
-		// Handle errors
-		if err != nil {
-			log.Printf("ERROR while sending message for /rocket: %v", err)
-		}
 	}
 
 }

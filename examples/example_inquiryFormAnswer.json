@@ -1,5 +1,5 @@
 {
-  "envelope_id": "db284746-f958-428e-af45-d9b1c3527347",
+  "envelope_id": "78ecc062-d58a-4a42-924e-98d556eb54db",
   "payload": {
     "type": "block_actions",
     "user": {
@@ -8,15 +8,15 @@
       "name": "jokahl",
       "team_id": "XX_TEAMID_XX"
     },
-    "api_app_id": "A03KF5UFV7Y",
-    "token": "ox34NL2kgHHtQTwnHeJvx8Ts",
+    "api_app_id": "XX_APPID_XX",
+    "token": "xx_token_xx",
     "container": {
       "type": "message",
-      "message_ts": "1655470804.000100",
+      "message_ts": "1655477674.000400",
       "channel_id": "XX_CHANNELID_XX",
       "is_ephemeral": true
     },
-    "trigger_id": "3684325541923.3680447881825.95eecbb9464e4a786f67128f8a4460a4",
+    "trigger_id": "3670431003991.3680447881825.bcbd706a98671d9b7a2e486884aa5d78",
     "team": {
       "id": "XX_TEAMID_XX",
       "domain": "orbostaging"
@@ -29,8 +29,8 @@
     },
     "state": {
       "values": {
-        "R47c": {
-          "checkboxes-action": {
+        "Hy=iW": {
+          "inquiry_type": {
             "type": "checkboxes",
             "selected_options": [
               {
@@ -44,63 +44,63 @@
             ]
           }
         },
-        "PrZ8": {
-          "plain_text_input-action": {
+        "MG1tW": {
+          "inquiry_location": {
             "type": "plain_text_input",
-            "value": "ort"
+            "value": "hier"
           }
         },
-        "wqw": {
-          "datepicker-action": {
+        "wIe": {
+          "inquiry_date": {
             "type": "datepicker",
-            "selected_date": "1990-04-28"
+            "selected_date": "2013-05-01"
           }
         },
-        "aFh": {
-          "timepicker-action": {
+        "uZn": {
+          "inquiry_time": {
             "type": "timepicker",
             "selected_time": "12:00"
           }
         },
-        "7w1": {
-          "plain_text_input-action": {
+        "xH+": {
+          "inquiry_duration": {
             "type": "plain_text_input",
             "value": "2h"
           }
         },
-        "imoax": {
-          "plain_text_input-action": {
+        "AHU": {
+          "inquiry_customer": {
             "type": "plain_text_input",
-            "value": "ich"
+            "value": "me"
           }
         },
-        "\/H0i7": {
-          "plain_text_input-action": {
+        "2xyF": {
+          "inquiry_occasion": {
             "type": "plain_text_input",
-            "value": "laune"
+            "value": "curiosity"
           }
         },
-        "tu4": {
-          "plain_text_input-action": {
+        "iQsAq": {
+          "inquiry_wishes": {
             "type": "plain_text_input",
-            "value": "musical"
+            "value": "lots"
           }
         }
       }
     },
-    "response_url": "https:\/\/hooks.slack.com\/actions\/XX_TEAMID_XX\/XXXXXXXXXXXX\/xxxxxxxxxxxxxxxxxxxxxxxxx",
+    "response_url": "https:\/\/hooks.slack.com\/actions\/XX_TEAMID_XX\/some_id\/another_id",
     "actions": [
       {
-        "action_id": "showRequest-01",
-        "block_id": "hMb",
+        "action_id": "inquiry_form_action",
+        "block_id": "PovD",
         "text": {
           "type": "plain_text",
           "text": "Los geht's",
           "emoji": true
         },
-        "value": "show_request_01",
+        "value": "yes",
         "type": "button",
-        "action_ts": "1655470830.504720"
+        "action_ts": "1655477742.326982"
       }
     ]
   },

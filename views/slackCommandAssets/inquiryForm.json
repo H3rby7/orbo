@@ -37,14 +37,14 @@
 						"value": "workshop"
 					}
 				],
-				"action_id": "checkboxes-action"
+				"action_id": "{{ .type }}"
 			}
 		},
 		{
 			"type": "input",
 			"element": {
 				"type": "plain_text_input",
-				"action_id": "plain_text_input-action"
+				"action_id": "{{ .location }}"
 			},
 			"label": {
 				"type": "plain_text",
@@ -62,7 +62,7 @@
 					"text": "Select a date",
 					"emoji": true
 				},
-				"action_id": "datepicker-action"
+				"action_id": "{{ .date }}"
 			},
 			"label": {
 				"type": "plain_text",
@@ -80,7 +80,7 @@
 					"text": "Select time",
 					"emoji": true
 				},
-				"action_id": "timepicker-action"
+				"action_id": "{{ .time }}"
 			},
 			"label": {
 				"type": "plain_text",
@@ -92,7 +92,7 @@
 			"type": "input",
 			"element": {
 				"type": "plain_text_input",
-				"action_id": "plain_text_input-action"
+				"action_id": "{{ .duration }}"
 			},
 			"label": {
 				"type": "plain_text",
@@ -104,7 +104,7 @@
 			"type": "input",
 			"element": {
 				"type": "plain_text_input",
-				"action_id": "plain_text_input-action"
+				"action_id": "{{ .customer }}"
 			},
 			"label": {
 				"type": "plain_text",
@@ -116,7 +116,7 @@
 			"type": "input",
 			"element": {
 				"type": "plain_text_input",
-				"action_id": "plain_text_input-action"
+				"action_id": "{{ .occasion }}"
 			},
 			"label": {
 				"type": "plain_text",
@@ -128,11 +128,11 @@
 			"type": "input",
 			"element": {
 				"type": "plain_text_input",
-				"action_id": "plain_text_input-action"
+				"action_id": "{{ .wishes }}"
 			},
 			"label": {
 				"type": "plain_text",
-				"text": "Gibt es inhaltliche Wünsche?",
+				"text": "Gibt es Wünsche?",
 				"emoji": true
 			}
 		},
@@ -147,7 +147,7 @@
 						"emoji": true
 					},
 					"value": "yes",
-					"action_id": "{{ .ActionID }}"
+					"action_id": "{{ .form_action }}"
 				}
 			]
 		}
