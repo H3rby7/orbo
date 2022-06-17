@@ -1,0 +1,155 @@
+{
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "Hi, kannst du mir noch ein paar Details nennen?"
+			}
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "input",
+			"label": {
+				"type": "plain_text",
+				"text": "Was wird angefragt?",
+				"emoji": true
+			},
+			"element": {
+				"type": "checkboxes",
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Show",
+							"emoji": true
+						},
+						"value": "show"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Workshop",
+							"emoji": true
+						},
+						"value": "workshop"
+					}
+				],
+				"action_id": "checkboxes-action"
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "plain_text_input-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Wo wird es stattfinden?",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "datepicker",
+				"initial_date": "1990-04-28",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select a date",
+					"emoji": true
+				},
+				"action_id": "datepicker-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Wann soll es stattfinden?",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "timepicker",
+				"initial_time": "12:00",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select time",
+					"emoji": true
+				},
+				"action_id": "timepicker-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Um welche Uhrzeit soll es stattfinden?",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "plain_text_input-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Wie lange dauert es?",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "plain_text_input-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Wer stellt die Anfrage?",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "plain_text_input-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Was ist der Anlass für die Anfrage?",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "plain_text_input-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Gibt es inhaltliche Wünsche?",
+				"emoji": true
+			}
+		},
+		{
+			"type": "actions",
+			"elements": [
+				{
+					"type": "button",
+					"text": {
+						"type": "plain_text",
+						"text": "Los geht's",
+						"emoji": true
+					},
+					"value": "yes",
+					"action_id": "{{ .ActionID }}"
+				}
+			]
+		}
+	]
+}

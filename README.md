@@ -45,3 +45,4 @@ Tutorial 1 : [Build Your Slack App Home in Golang Using Socket Mode](https://bet
 Tutorial 3: [Implement Slack Slash Command with Golang using Socket Mode](https://levelup.gitconnected.com/implement-slack-slash-command-in-golang-using-socket-mode-ac693e38148c?sk=33e90a65aded42cd4737ff6a137762cc)
 ## References
 * [Building a home for your app 🏡](https://api.slack.com/tutorials/app-home-with-modal)
+* [Polly API](https://docs.polly.ai/api/)

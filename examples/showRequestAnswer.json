@@ -1,0 +1,109 @@
+{
+  "envelope_id": "db284746-f958-428e-af45-d9b1c3527347",
+  "payload": {
+    "type": "block_actions",
+    "user": {
+      "id": "XX_USERID_XX",
+      "username": "jokahl",
+      "name": "jokahl",
+      "team_id": "XX_TEAMID_XX"
+    },
+    "api_app_id": "A03KF5UFV7Y",
+    "token": "ox34NL2kgHHtQTwnHeJvx8Ts",
+    "container": {
+      "type": "message",
+      "message_ts": "1655470804.000100",
+      "channel_id": "XX_CHANNELID_XX",
+      "is_ephemeral": true
+    },
+    "trigger_id": "3684325541923.3680447881825.95eecbb9464e4a786f67128f8a4460a4",
+    "team": {
+      "id": "XX_TEAMID_XX",
+      "domain": "orbostaging"
+    },
+    "enterprise": null,
+    "is_enterprise_install": false,
+    "channel": {
+      "id": "XX_CHANNELID_XX",
+      "name": "allgemein"
+    },
+    "state": {
+      "values": {
+        "R47c": {
+          "checkboxes-action": {
+            "type": "checkboxes",
+            "selected_options": [
+              {
+                "text": {
+                  "type": "plain_text",
+                  "text": "Show",
+                  "emoji": true
+                },
+                "value": "show"
+              }
+            ]
+          }
+        },
+        "PrZ8": {
+          "plain_text_input-action": {
+            "type": "plain_text_input",
+            "value": "ort"
+          }
+        },
+        "wqw": {
+          "datepicker-action": {
+            "type": "datepicker",
+            "selected_date": "1990-04-28"
+          }
+        },
+        "aFh": {
+          "timepicker-action": {
+            "type": "timepicker",
+            "selected_time": "12:00"
+          }
+        },
+        "7w1": {
+          "plain_text_input-action": {
+            "type": "plain_text_input",
+            "value": "2h"
+          }
+        },
+        "imoax": {
+          "plain_text_input-action": {
+            "type": "plain_text_input",
+            "value": "ich"
+          }
+        },
+        "\/H0i7": {
+          "plain_text_input-action": {
+            "type": "plain_text_input",
+            "value": "laune"
+          }
+        },
+        "tu4": {
+          "plain_text_input-action": {
+            "type": "plain_text_input",
+            "value": "musical"
+          }
+        }
+      }
+    },
+    "response_url": "https:\/\/hooks.slack.com\/actions\/XX_TEAMID_XX\/XXXXXXXXXXXX\/xxxxxxxxxxxxxxxxxxxxxxxxx",
+    "actions": [
+      {
+        "action_id": "showRequest-01",
+        "block_id": "hMb",
+        "text": {
+          "type": "plain_text",
+          "text": "Los geht's",
+          "emoji": true
+        },
+        "value": "show_request_01",
+        "type": "button",
+        "action_ts": "1655470830.504720"
+      }
+    ]
+  },
+  "type": "interactive",
+  "accepts_response_payload": false
+}

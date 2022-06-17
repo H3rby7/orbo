@@ -9,9 +9,10 @@ import (
 )
 
 const (
-	// Define Action_id as constant so we can refet to them in the controller
+	// Define Action_id as constant so we can refer to them in the controller
 	RocketAnnoncementActionID = "rocket_launch_approved"
 	RocketAnnoncementBlockID  = "rocket_annoncement"
+	ShowRequestFormActionID   = "show_request_form_action"
 )
 
 //go:embed slackCommandAssets/*
@@ -53,6 +54,29 @@ func LaunchRocket(number int) []slack.Block {
 	}
 
 	tpl := renderTemplate(slashCommandAssets, "slackCommandAssets/rocket.json", args{Number: number})
+
+	// we convert the view into a message struct
+	view := slack.Msg{}
+
+	str, _ := ioutil.ReadAll(&tpl)
+	json.Unmarshal(str, &view)
+
+	// We only return the block because of the way the PostEphemeral function works
+	// we are going to use slack.MsgOptionBlocks in the controller
+	return view.Blocks.BlockSet
+}
+
+func ShowRequest() []slack.Block {
+	// we need a stuct to hold template arguments
+	type args struct {
+		ActionID string
+	}
+
+	my_args := args{
+		ActionID: ShowRequestFormActionID,
+	}
+
+	tpl := renderTemplate(slashCommandAssets, "slackCommandAssets/showRequest.json", my_args)
 
 	// we convert the view into a message struct
 	view := slack.Msg{}
