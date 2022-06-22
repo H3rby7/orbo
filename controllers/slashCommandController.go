@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"h3rby7/orbo/views"
 	"log"
-	"xnok/slack-go-demo/views"
 
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/socketmode"
@@ -53,10 +53,8 @@ func (c SlashCommandController) showRequest(evt *socketmode.Event, clt *socketmo
 	// create the view using block-kit
 	blocks := views.InquiryForm()
 
-	client := clt.GetApiClient()
-
 	// Post ephemeral message
-	_, _, err := client.PostMessage(
+	_, _, err := clt.PostMessage(
 		command.ChannelID,
 		slack.MsgOptionBlocks(blocks...),
 		slack.MsgOptionResponseURL(command.ResponseURL, slack.ResponseTypeEphemeral),
@@ -88,7 +86,7 @@ func (c SlashCommandController) handleShowRequestForm(evt *socketmode.Event, clt
 	// create the view using block-kit
 	// blocks := views.LaunchRocket()
 
-	_, _, err := clt.GetApiClient().PostMessage(
+	_, _, err := clt.PostMessage(
 		interaction.Container.ChannelID,
 		slack.MsgOptionBlocks(),
 		slack.MsgOptionResponseURL(interaction.ResponseURL, slack.ResponseTypeInChannel),

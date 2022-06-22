@@ -1,9 +1,9 @@
 package main
 
 import (
+	"h3rby7/orbo/controllers"
+	"h3rby7/orbo/drivers"
 	"os"
-	"xnok/slack-go-demo/controllers"
-	"xnok/slack-go-demo/drivers"
 
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog"
@@ -30,14 +30,10 @@ func main() {
 	}
 
 	// Inject Deps in router
-	socketmodeHandler := socketmode.NewsSocketmodeHandler(client)
+	socketmodeHandler := socketmode.NewSocketmodeHandler(client)
 
 	// This if for Separate articles and demos. You can run there separatly or all together
 
-	// Build a Slack App Home in Golang Using Socket Mode
-	controllers.NewAppHomeController(socketmodeHandler)
-	// Properly Welcome Users in Slack with Golang using Socket Mode
-	controllers.NewGreetingController(socketmodeHandler)
 	// Build Slack Slash Command in Golang Using Socket Mode
 	controllers.NewSlashCommandController(socketmodeHandler)
 
