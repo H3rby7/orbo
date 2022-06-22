@@ -12,7 +12,7 @@ func getValuesFromBlockAction(blockAction slack.BlockAction) []string {
 	case "plain_text_input":
 		values = []string{blockAction.Value}
 	case "checkboxes":
-		values := make([]string, len(blockAction.SelectedOptions))
+		values = make([]string, len(blockAction.SelectedOptions))
 		for i, v := range blockAction.SelectedOptions {
 			values[i] = v.Value
 		}
