@@ -3,6 +3,7 @@ package controllers
 import (
 	"h3rby7/orbo/views"
 	"log"
+	"time"
 
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/socketmode"
@@ -10,7 +11,7 @@ import (
 
 const (
 	// Define Action_id as constant so we can refer to them in the controller
-	ShowRequestCommand = "/anfrage"
+	InquiryCommand = "/anfrage"
 )
 
 // We create a sctucture to let us use dependency injection
@@ -25,21 +26,24 @@ func NewSlashCommandController(eventhandler *socketmode.SocketmodeHandler) Slash
 	}
 
 	c.EventHandler.HandleSlashCommand(
-		ShowRequestCommand,
-		c.showRequest,
+		InquiryCommand,
+		c.inquiry,
 	)
 
 	// The form is sent back to us
 	c.EventHandler.HandleInteractionBlockAction(
 		views.IDs["form_action"],
-		c.handleShowRequestForm,
+		c.handleInquiryForm,
 	)
+
+	// TEST commands
+	c.EventHandler.HandleSlashCommand("/test", c.testRequest)
 
 	return c
 
 }
 
-func (c SlashCommandController) showRequest(evt *socketmode.Event, clt *socketmode.Client) {
+func (c SlashCommandController) inquiry(evt *socketmode.Event, clt *socketmode.Client) {
 	// we need to cast our socketmode.Event into a Slash Command
 	command, convErr := evt.Data.(slack.SlashCommand)
 
@@ -62,12 +66,14 @@ func (c SlashCommandController) showRequest(evt *socketmode.Event, clt *socketmo
 
 	// Handle errors
 	if err != nil {
-		log.Printf("ERROR while sending message for '%v': %v", ShowRequestCommand, err)
+		log.Printf("ERROR while sending message for '%v': %v", InquiryCommand, err)
 	}
 
 }
 
-func (c SlashCommandController) handleShowRequestForm(evt *socketmode.Event, clt *socketmode.Client) {
+func (c SlashCommandController) handleInquiryForm(evt *socketmode.Event, clt *socketmode.Client) {
+	// TODO: This is the place to create channel, survey etc. - May want to add a microservice Survey App using Slack message metadata instead of a DB
+
 	// we need to cast our socketmode.Event into a Slash Command
 	interaction := evt.Data.(slack.InteractionCallback)
 	rawInputs := interaction.BlockActionState.Values
@@ -95,7 +101,39 @@ func (c SlashCommandController) handleShowRequestForm(evt *socketmode.Event, clt
 
 	// Handle errors
 	if err != nil {
-		log.Printf("ERROR while sending message for /rocket: %v", err)
+		log.Printf("ERROR while sending message for %v FORM: %v", InquiryCommand, err)
+	}
+
+}
+
+func (c SlashCommandController) testRequest(evt *socketmode.Event, clt *socketmode.Client) {
+	// we need to cast our socketmode.Event into a Slash Command
+	command, convErr := evt.Data.(slack.SlashCommand)
+
+	if convErr != true {
+		log.Printf("ERROR converting event to Slash Command: %v", convErr)
+	}
+
+	// Make sure to respond to the server to avoid an error
+	clt.Ack(*evt.Request)
+
+	// Post message
+	_, _, err := clt.PostMessage(
+		command.ChannelID,
+		slack.MsgOptionText("hello boyyyy, it is "+time.Now().Format(time.RFC3339), false),
+		slack.MsgOptionUsername("jokahl"),
+		slack.MsgOptionAsUser(true),
+		slack.MsgOptionMetadata(slack.SlackMetadata{
+			EventType: "aaa",
+			EventPayload: map[string]interface{}{
+				"test": "text",
+			},
+		}),
+	)
+
+	// Handle errors
+	if err != nil {
+		log.Printf("ERROR while sending message for 'test': %v", err)
 	}
 
 }

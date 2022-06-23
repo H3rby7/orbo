@@ -8,3 +8,5 @@ require (
 	github.com/rs/zerolog v1.20.0
 	github.com/slack-go/slack v0.11.0
 )
+
+replace github.com/slack-go/slack => ../slack
