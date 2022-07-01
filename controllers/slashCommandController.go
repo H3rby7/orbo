@@ -16,13 +16,15 @@ const (
 
 // We create a sctucture to let us use dependency injection
 type SlashCommandController struct {
-	EventHandler *socketmode.SocketmodeHandler
+	EventHandler   *socketmode.SocketmodeHandler
+	ChannelHandler *ChannelHandler
 }
 
 func NewSlashCommandController(eventhandler *socketmode.SocketmodeHandler) SlashCommandController {
 	// we need to cast our socketmode.Event into a SlashCommand
 	c := SlashCommandController{
-		EventHandler: eventhandler,
+		EventHandler:   eventhandler,
+		ChannelHandler: &ChannelHandler{},
 	}
 
 	c.EventHandler.HandleSlashCommand(
@@ -47,7 +49,7 @@ func (c SlashCommandController) inquiry(evt *socketmode.Event, clt *socketmode.C
 	// we need to cast our socketmode.Event into a Slash Command
 	command, convErr := evt.Data.(slack.SlashCommand)
 
-	if convErr != true {
+	if !convErr {
 		log.Printf("ERROR converting event to Slash Command: %v", convErr)
 	}
 
@@ -110,7 +112,7 @@ func (c SlashCommandController) testRequest(evt *socketmode.Event, clt *socketmo
 	// we need to cast our socketmode.Event into a Slash Command
 	command, convErr := evt.Data.(slack.SlashCommand)
 
-	if convErr != true {
+	if !convErr {
 		log.Printf("ERROR converting event to Slash Command: %v", convErr)
 	}
 
