@@ -8,7 +8,7 @@ import (
 	"github.com/slack-go/slack"
 )
 
-var IDs = map[string]string{
+var InquiryIds = map[string]string{
 	"form_action": "inquiry_form_action",
 	"type":        "inquiry_type",
 	"location":    "inquiry_location",
@@ -25,7 +25,7 @@ var slashCommandAssets embed.FS
 
 func InquiryForm() []slack.Block {
 
-	tpl := renderTemplate(slashCommandAssets, "slackCommandAssets/inquiryForm.json", IDs)
+	tpl := renderTemplate(slashCommandAssets, "slackCommandAssets/inquiryForm.json", InquiryIds)
 
 	// we convert the view into a message struct
 	view := slack.Msg{}

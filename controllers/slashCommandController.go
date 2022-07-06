@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"h3rby7/orbo/model"
+	"h3rby7/orbo/util"
 	"h3rby7/orbo/views"
 	"log"
 	"time"
@@ -34,7 +36,7 @@ func NewSlashCommandController(eventhandler *socketmode.SocketmodeHandler) Slash
 
 	// The form is sent back to us
 	c.EventHandler.HandleInteractionBlockAction(
-		views.IDs["form_action"],
+		views.InquiryIds["form_action"],
 		c.handleInquiryForm,
 	)
 
@@ -74,6 +76,8 @@ func (c SlashCommandController) inquiry(evt *socketmode.Event, clt *socketmode.C
 }
 
 func (c SlashCommandController) handleInquiryForm(evt *socketmode.Event, clt *socketmode.Client) {
+	// Make sure to respond to the server to avoid an error
+	clt.Ack(*evt.Request)
 	// TODO: This is the place to create channel, survey etc. - May want to add a microservice Survey App using Slack message metadata instead of a DB
 
 	// we need to cast our socketmode.Event into a Slash Command
@@ -81,29 +85,32 @@ func (c SlashCommandController) handleInquiryForm(evt *socketmode.Event, clt *so
 	rawInputs := interaction.BlockActionState.Values
 
 	inputs := map[string]interface{}{}
+	ids := util.MapReverse(views.InquiryIds)
 
 	for _, entry := range rawInputs {
 		for actionId, value := range entry {
-			inputs[actionId] = getValuesFromBlockAction(value)
+			isMulti, single, multi := getValuesFromBlockAction(value)
+			if isMulti {
+				inputs[ids[actionId]] = multi
+			} else {
+				inputs[ids[actionId]] = single
+			}
 		}
 	}
 
-	// Make sure to respond to the server to avoid an error
-	clt.Ack(*evt.Request)
+	eventData, conversionErr := model.NewEventChannel(inputs)
 
-	// create the view using block-kit
-	// blocks := views.LaunchRocket()
+	if conversionErr != nil {
+		log.Printf("ERROR while reading form data from FORM '%v' -> %v", InquiryCommand, conversionErr)
+		// TODO: more Error handling?
+	}
+	// TODO: continue here with eventData -> create Channel, post some mesasgies.
 
-	_, _, err := clt.PostMessage(
-		interaction.Container.ChannelID,
-		slack.MsgOptionBlocks(),
-		slack.MsgOptionResponseURL(interaction.ResponseURL, slack.ResponseTypeInChannel),
-		slack.MsgOptionReplaceOriginal(interaction.ResponseURL),
-	)
+	_, slackError := c.ChannelHandler.create(eventData, clt)
 
-	// Handle errors
-	if err != nil {
-		log.Printf("ERROR while sending message for %v FORM: %v", InquiryCommand, err)
+	if slackError != nil {
+		log.Printf("ERROR creating channel from FORM '%v' -> %v", InquiryCommand, slackError)
+		// TODO: more Error handling?
 	}
 
 }
